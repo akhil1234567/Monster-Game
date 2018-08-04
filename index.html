@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monster Attack</title>
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="foundation.min.css">
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<div id="app">
+    <section class="row">
+        <div class="small-6 columns">
+            <h1 class="text-center">YOU</h1>
+            <div class="healthbar">
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width: player+'%'}">
+                        {{player}}
+                </div>
+            </div>
+        </div>
+        <div class="small-6 columns">
+            <h1 class="text-center">MONSTER</h1>
+            <div class="healthbar">
+                <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;" :style="{width: monster+'%'}">
+                        {{monster}}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="row controls">
+        <div class="small-12 columns">
+            <button id="start-game" @click="normal()">START NEW GAME</button>
+        </div>
+    </section>
+    <section class="row controls">
+        <div class="small-12 columns" v-if="game==true">
+            <button id="attack" @click="attack()">ATTACK</button>
+            <button id="special-attack" @click="specialattack()">SPECIAL ATTACK</button>
+            <button id="heal" @click="heal()" >HEAL</button>
+            <button id="give-up" @click="giveup()">GIVE UP</button>
+        </div>
+    </section>
+    <section class="row log">
+        <div class="small-12 columns">
+            <ul>
+                <li>
+
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+<script type="text/javascript" src="vue.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el : '#app',
+        data :{
+            player :100,
+            monster :100,
+            power :0,
+            powe :0,
+            power1:0,
+            p:0,
+            power2 :0,
+            game: false,
+        },
+        methods:{
+
+            attack :function(){
+
+            if(this.player<=100){
+                let power = Math.round(getRandom(5,15));
+                this.player-=power;
+                let powe = Math.round(getRandom(5,10));
+                this.monster-=powe;
+                
+                if(this.player<=0){
+                    
+                    swal({
+                          title: "Game Over",
+                          text: "Have much energy and try to become strong",
+                          icon: "lose.gif",
+                        });
+                this.player=0;}
+                if(this.monster<=0){
+                    
+                   swal({
+                          title: "You Won!",
+                          text: "Proven the strength...Now try to kill more  monsters!",
+                          icon: "win.gif",
+                        });
+                   this.monster=0;
+                }
+                if(this.player===0){
+                    this.player=100;
+                    this.monster=100;
+                }
+            }
+                },
+            heal: function(){
+               
+                if(this.player===100)
+                swal({
+                      title: "Nothing more to heal!",
+                      text: "You are in maximum power now try to kill the monster",
+                      icon: "heal.gif",
+                    });
+             if(this.player===0){
+                this.player=0;
+                     swal({
+                      title: "Start New Game!",
+                      text: "You have failed this match.....try for a new one",
+                      icon: "heal.gif",
+                    });
+
+                }
+                if(this.player<100){
+                let power1 = Math.round(getRandom(5,10));
+                this.player+=power1;}
+                 if(this.player>=90){
+                    this.player=100;
+                }
+               
+
+                
+            },
+            normal: function(){
+                this.game=true;
+                this.player=100;
+                this.monster=100;
+            },
+            specialattack :function(){
+                let p=Math.round(getRandom(5,25));
+                this.monster-=p;
+                let power2 = Math.round(getRandom(5,15));
+                this.player-=power2;
+                 if(this.monster<=0){
+                    swal({
+                          title: "You Won!",
+                          text: "Proven the strength...Now try to kill more  monsters!",
+                          icon: "win.gif",
+                        });
+                  this.monster=0;
+                }
+                if(this.player<=0){
+                    swal({
+                          title: "Game Over",
+                          text: "Have much energy and try to become strong",
+                          icon: "lose.gif",
+                        });
+                    this.player=0;
+                }
+                if(this.monster===0){
+                    this.player=100;
+                    this.monster=100;}
+                   
+                 },
+                 giveup: function(){
+                    swal({
+                                  title: "Looser",
+                                  text: "You are almost failed...dont try to escap from life",
+                                  icon: "giveup.gif",
+                                });
+                    this.player=100;
+                    this.monster=100;
+
+                }
+
+
+        },
+        
+    });
+
+function getRandom(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+    
+</script>
+</body>
+</html>
